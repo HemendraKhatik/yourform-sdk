@@ -1,10 +1,10 @@
-import { HttpClient, HttpClientOptions } from './http';
-import { FormsApi } from './api/forms';
-import { FieldsApi } from './api/fields';
-import { ResponsesApi } from './api/responses';
+import { HttpClient, HttpClientOptions } from './http.js';
+import { FormsApi } from './api/forms.js';
+import { FieldsApi } from './api/fields.js';
+import { ResponsesApi } from './api/responses.js';
 
-export * from './types';
-export * from './errors';
+export * from './types/index.js';
+export * from './errors/index.js';
 
 /**
  * Options for initializing the YourForm SDK.

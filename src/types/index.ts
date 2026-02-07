@@ -1,4 +1,4 @@
-import { ValidationError } from '../errors';
+import { ValidationError } from '../errors/index.js';
 
 /**
  * Supported question types in YourForm.

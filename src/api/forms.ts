@@ -1,5 +1,5 @@
-import { HttpClient } from '../http';
-import { CreateFormOptions, Form, UpdateFormOptions, validateQuestionType, validateFormStyle } from '../types';
+import { HttpClient } from '../http.js';
+import { CreateFormOptions, Form, UpdateFormOptions, validateQuestionType, validateFormStyle } from '../types/index.js';
 
 /**
  * API for managing YourForm forms.

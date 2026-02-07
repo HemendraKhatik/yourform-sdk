@@ -1,4 +1,4 @@
-import { YourFormError, AuthenticationError, RateLimitError, ServerError, ValidationError } from './errors';
+import { YourFormError, AuthenticationError, RateLimitError, ServerError, ValidationError } from './errors/index.js';
 
 /**
  * Configuration options for the internal HTTP client.
@@ -23,7 +23,7 @@ export class HttpClient {
 
   constructor(options: HttpClientOptions) {
     this.apiKey = options.apiKey;
-    this.baseUrl = options.baseUrl || 'https://api.yourform.live/v1';
+    this.baseUrl = (options.baseUrl || 'https://www.yourform.live/api/v1').replace(/\/+$/, '');
     this.maxRetries = options.maxRetries || 3;
   }
 

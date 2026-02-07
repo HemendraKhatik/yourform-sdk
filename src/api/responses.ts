@@ -1,5 +1,5 @@
-import { HttpClient } from '../http';
-import { Response } from '../types';
+import { HttpClient } from '../http.js';
+import { Response } from '../types/index.js';
 
 /**
  * API for submitting and retrieving form responses.

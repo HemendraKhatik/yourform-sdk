@@ -1,5 +1,5 @@
-import { HttpClient } from '../http';
-import { Field, validateQuestionType } from '../types';
+import { HttpClient } from '../http.js';
+import { Field, validateQuestionType } from '../types/index.js';
 
 /**
  * API for managing fields (questions) within a YourForm form.

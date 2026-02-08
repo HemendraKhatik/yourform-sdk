@@ -3,7 +3,7 @@ const { YourForm } = require("./dist/index");
 // 1. Set your local configuration
 // For local testing, ensure your 'openform' backend is running on http://localhost:3000
 const yourform = new YourForm({
-  apiKey: "yf_test_key_for_local_testing", // Use a test API key for local development
+  apiKey: "yf_live_4d2c049e14b29ebf035394c00be9ade2421ecf42b47efce4", // Use a test API key for local development
   baseUrl: "http://localhost:3000/api/v1",
 });
 

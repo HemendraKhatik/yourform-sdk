@@ -1,4 +1,4 @@
-import { YourFormError, AuthenticationError, RateLimitError, ServerError, ValidationError } from './errors/index.js';
+import { YourFormError, AuthenticationError, RateLimitError, ServerError, ValidationError, NotFoundError } from './errors/index.js';
 
 /**
  * Configuration options for the internal HTTP client.
@@ -71,6 +71,10 @@ export class HttpClient {
         return await response.json() as T;
       }
 
+      // Try to parse error body for better messages
+      const errorBody = await response.json().catch(() => ({}));
+      const serverMessage = errorBody.message || errorBody.error || (errorBody.details && typeof errorBody.details === 'string' ? errorBody.details : null);
+
       const headers = {
         limit: parseInt(response.headers?.get('x-ratelimit-limit') || '0'),
         remaining: parseInt(response.headers?.get('x-ratelimit-remaining') || '0'),
@@ -80,7 +84,7 @@ export class HttpClient {
       // Handle Rate Limiting with exponential backoff or Retry-After header
       if (response.status === 429) {
         if (attempt === this.maxRetries) {
-          throw new RateLimitError('Rate limit exceeded after maximum retries', headers);
+          throw new RateLimitError(serverMessage || 'Rate limit exceeded after maximum retries', headers);
         }
         const retryAfter = parseInt(response.headers.get('Retry-After') || '1') * 1000;
         const backoff = Math.pow(2, attempt) * 1000;
@@ -92,7 +96,7 @@ export class HttpClient {
       // Retry on internal server errors
       if (response.status >= 500) {
         if (attempt === this.maxRetries) {
-          throw new ServerError(`Server error (${response.status})`, response.status);
+          throw new ServerError(serverMessage || `Server error (${response.status})`, response.status, errorBody);
         }
         await this.sleep(Math.pow(2, attempt) * 1000);
         attempt++;
@@ -100,15 +104,18 @@ export class HttpClient {
       }
 
       if (response.status === 401 || response.status === 403) {
-        throw new AuthenticationError('API key is invalid or unauthorized');
+        throw new AuthenticationError(serverMessage || 'API key is invalid or unauthorized');
+      }
+
+      if (response.status === 404) {
+        throw new NotFoundError(serverMessage || 'Resource not found');
       }
 
       if (response.status === 400) {
-        const body = await response.json().catch(() => ({}));
-        throw new ValidationError('Validation failed', body);
+        throw new ValidationError(serverMessage || 'Validation failed', errorBody);
       }
 
-      throw new YourFormError(`Request failed with status ${response.status}`);
+      throw new YourFormError(serverMessage || `Request failed with status ${response.status}`);
     }
 
     throw new YourFormError('Request failed after maximum retries');

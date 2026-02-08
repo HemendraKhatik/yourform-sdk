@@ -1,6 +1,6 @@
 {
   "name": "@yourform/sdk",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "type": "module",
   "description": "Official Node.js SDK for YourForm",
   "main": "dist/index.js",

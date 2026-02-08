@@ -115,7 +115,7 @@ export interface CreateFormOptions {
   /** Optional description for the form. */
   description?: string;
   /** Optional initial questions. */
-  questions?: Omit<Field, 'id'>[];
+  questions?: (Omit<Field, 'id' | 'slug'> & { slug?: string })[];
   /** Optional theme selection. */
   theme?: string;
   /** Optional layout style. */
@@ -146,6 +146,8 @@ export interface UpdateFormOptions {
 export interface Field {
   /** Unique identifier for the field. */
   id: string;
+  /** Explicit field name for submission (slug). */
+  slug: string;
   /** The type of question (e.g., 'short_text', 'multiple_choice'). */
   type: QuestionType;
   /** The question text. */

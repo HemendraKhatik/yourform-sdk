@@ -26,6 +26,11 @@ Thumbs.db
 # Testing
 coverage/
 .nyc_output/
+test/
+test-*.cjs
+*-submission.cjs
+verify-submission.cjs
+inspect-form.cjs
 
 # Cache and temporary files
 .cache/

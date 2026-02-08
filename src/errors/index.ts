@@ -71,11 +71,25 @@ export class ValidationError extends YourFormError {
 export class ServerError extends YourFormError {
   /** The HTTP status code returned by the server. */
   public readonly statusCode: number;
+  /** The raw response body from the server, if available. */
+  public readonly details?: any;
 
-  constructor(message: string = 'Internal server error', statusCode: number = 500) {
+  constructor(message: string = 'Internal server error', statusCode: number = 500, details?: any) {
     super(message);
     this.name = 'ServerError';
     this.statusCode = statusCode;
+    this.details = details;
     Object.setPrototypeOf(this, ServerError.prototype);
+  }
+}
+
+/**
+ * Thrown when the requested resource was not found (404).
+ */
+export class NotFoundError extends YourFormError {
+  constructor(message: string = 'Resource not found') {
+    super(message);
+    this.name = 'NotFoundError';
+    Object.setPrototypeOf(this, NotFoundError.prototype);
   }
 }
